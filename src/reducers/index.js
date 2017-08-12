@@ -19,6 +19,11 @@ const initialCalendarState = {
 		lunch: null,
 		dinner: null,
 	},
+	wednesday: {
+		breakfast: null,
+		lunch: null,
+		dinner: null,
+	},
 	thursday: {
 		breakfast: null,
 		lunch: null,
