@@ -3,6 +3,7 @@ import {
 	REMOVE_FROM_CALENDAR
 } from '../actions'
 
+// initial object is created with nested objects
 const initialCalendarState = {
 	sunday: {
 		breakfast: null,
