@@ -5,6 +5,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore } from 'redux';
 import reducer from './reducers';
+import { Provider, connect } from 'react-redux';
 
 // This creates our redux store and passes it the reducer function
 // The second parameter is specifically so a third party extension for testing redux apps will work correctly
@@ -13,5 +14,8 @@ const store = createStore(
 	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
-ReactDOM.render(<App store={store} />, document.getElementById('root'));
+ReactDOM.render(
+	<Provider store={store}>
+		<App/>
+	</Provider>, document.getElementById('root'));
 registerServiceWorker();
