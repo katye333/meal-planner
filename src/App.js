@@ -23,19 +23,16 @@ class App extends Component {
 // calendar after this function call:
 // ** { calendar: [{ day: "sunday", meals: { breakfast: null, lunch: null, dinner: null }}, { day: "sunday", meals: { breakfast: null, lunch: null, dinner: null }}, etc]}
 // ** much easier to use an array for things
-function mapStateToProps (calendar) {
+function mapStateToProps ({ calendar, food }) {
     const dayOrder = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
     return {
         calendar: dayOrder.map((day) => ({
             day,
             meals: Object.keys(calendar[day]).reduce((meals, meal) => {
-                if (meals[meal] === calendar[day][meal]) {
-                    meals[meal] = calendar[day][meal];
-                }
-                else {
-                    meals[meal] = null;
-                }
+                meals[meal] = calendar[day][meal]
+                    ? food[calendar[day][meal]]
+                    : null;
                 return meals
             }, {})
         })),

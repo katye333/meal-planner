@@ -1,7 +1,27 @@
+import { combineReducers } from 'redux'
 import {
 	ADD_RECIPE,
 	REMOVE_FROM_CALENDAR
 } from '../actions'
+
+// We want to have a food property and a calendar property
+// Whenever any of the meals in the calendar need to reference
+// food, they can do it by referencing the food properties
+
+// Handles all the recipes in our store
+function food (state = {}, action) {
+	switch (action.type) {
+		case ADD_RECIPE:
+			const { recipe } = action;
+
+			return {
+				...state,
+				[recipe.label]: recipe
+			}
+		default:
+			return state;
+	}
+}
 
 // initial object is created with nested objects
 const initialCalendarState = {
@@ -42,6 +62,7 @@ const initialCalendarState = {
 	}
 }
 
+// Handles all the calendar-related tasks for our store
 function calendar(state = initialCalendarState, action) {
 	const { day, recipe, meal } = action;
 
@@ -67,4 +88,7 @@ function calendar(state = initialCalendarState, action) {
 	}
 }
 
-export default calendar;
+export default combineReducers({
+	food,
+	calendar
+});
