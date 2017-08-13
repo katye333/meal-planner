@@ -10,6 +10,9 @@ import { fetchRecipes } from '../utils/api'
 import FoodList from './FoodList'
 import ShoppingList from './ShoppingList'
 
+// const API_ID = 'c7e7b1dd'
+// const APP_KEY = '13487accdaf2c75d26435d1fdf4b1835'
+
 class App extends Component {
     // local state
     state = {
@@ -49,23 +52,43 @@ class App extends Component {
             })))
     }
 
+    // searchFood = (e) => {
+    //     if (!this.input.value) {
+    //         return;
+    //     }
+    //     e.preventDefault();
+    //     this.setState(() => ({ loadingFood: true }))
+
+    //****** Actually see the async calls happening
+    //****** Removed all the stupid bullshit api calls on a different page nonsense so you can actually understand what's going on
+    //     console.log('0')
+    //     fetch(`https://api.edamam.com/search?q=${this.input.value}&app_id=${API_ID}&app_key=${APP_KEY}`)
+    //         .then(() => console.log('1'))
+    //         .then(() => console.log('2'))
+    //         .then((food) => this.setState(() => ({
+    //             food,
+    //             loadingFood: false
+    //         })))
+    //     console.log('3')
+    // }
+
     openIngredientsModal = () => this.setState(() => ({ ingredientsModalOpen: true }))
     closeIngredientsModal = () => this.setState(() => ({ ingredientsModalOpen: false }))
 
     generateShoppingList = () => {
         // push all of our meals into an array
         return this.props.calendar.reduce((result, { meals }) => {
-            const { breakfast, lunch, dinner } = meals
+                const { breakfast, lunch, dinner } = meals
 
-            breakfast && result.push(breakfast)
-            lunch && result.push(lunch)
-            dinner && result.push(dinner)
+                breakfast && result.push(breakfast)
+                lunch && result.push(lunch)
+                dinner && result.push(dinner)
 
-            return result
-        }, [])
+                return result
+            }, [])
 
-        // flatten array
-        .reduce((ings, { ingredientLines }) => ings.concat(ingredientLines), [])
+            // flatten array
+            .reduce((ings, { ingredientLines }) => ings.concat(ingredientLines), [])
     }
     render() {
         const { foodModalOpen, loadingFood, food, ingredientsModalOpen } = this.state;
@@ -175,16 +198,16 @@ class App extends Component {
 // calendar after this function call:
 // ** { calendar: [{ day: "sunday", meals: { breakfast: null, lunch: null, dinner: null }}, { day: "sunday", meals: { breakfast: null, lunch: null, dinner: null }}, etc]}
 // ** much easier to use an array for things
-function mapStateToProps ({ calendar, food }) {
+function mapStateToProps({ calendar, food }) {
     const dayOrder = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
     return {
         calendar: dayOrder.map((day) => ({
             day,
             meals: Object.keys(calendar[day]).reduce((meals, meal) => {
-                meals[meal] = calendar[day][meal]
-                    ? food[calendar[day][meal]]
-                    : null;
+                meals[meal] = calendar[day][meal] ?
+                    food[calendar[day][meal]] :
+                    null;
                 return meals
             }, {})
         })),
